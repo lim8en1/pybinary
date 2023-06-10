@@ -1,4 +1,4 @@
-# pbs (Python Binary Serializer)
+# pybinary
 A simple binary serializer/deserializer in pure python.
 
 ## Limitations
@@ -44,5 +44,5 @@ header.serialize() # serialize and get updated bytes
 
 Spec taken from https://manpages.ubuntu.com/manpages/bionic/man5/cpio.5.html
 
-[Code here](https://github.com/lim8en1/pbs/blob/main/examples/cpio.py)
+[Code here](https://github.com/lim8en1/pybinary/blob/main/examples/cpio.py)
 

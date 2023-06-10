@@ -2,8 +2,8 @@ import random
 
 import pytest
 
-from pbs.binary_types import ArrayTypes, Types
-from pbs.serializable import BinarySerializable
+from pybinary.binary_types import ArrayTypes, Types
+from pybinary.serializable import BinarySerializable
 
 
 def test_simple_class():

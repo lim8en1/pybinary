@@ -6,8 +6,8 @@ from collections import OrderedDict
 from typing import BinaryIO
 
 from loguru import logger
-from pbs.binary_types import ArrayTypes
-from pbs.serializable import BinarySerializable
+from pybinary.binary_types import ArrayTypes
+from pybinary.serializable import BinarySerializable
 
 
 class CpioNewcHeader(BinarySerializable):
