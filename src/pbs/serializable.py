@@ -1,7 +1,7 @@
 import typing
 from collections import OrderedDict
 from io import BytesIO
-import pyserializable.binary_types as stypes
+import pbs.binary_types as stypes
 import logging
 
 

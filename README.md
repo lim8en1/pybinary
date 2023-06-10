@@ -1,8 +1,15 @@
-# pyserializable
+# pbs (Python Binary Serializer)
 A simple binary serializer/deserializer in pure python.
 
 ## Limitations
 Variable-sized fields are not supported. No size check on assignment for the most of the types.
+
+## Installation 
+Download the repository and build from the sources:
+```
+python3 ./setup.py build
+python3 ./setup.py install
+```
 
 ## Examples
 ### ELF64 header
@@ -37,5 +44,5 @@ header.serialize() # serialize and get updated bytes
 
 Spec taken from https://manpages.ubuntu.com/manpages/bionic/man5/cpio.5.html
 
-[Code here](https://github.com/lim8en1/pyserializable/blob/main/examples/cpio.py)
+[Code here](https://github.com/lim8en1/pbs/blob/main/examples/cpio.py)
 
