@@ -1,6 +1,6 @@
 [project]
 name = "pyserializable"
-version = "0.3.0"
+version = "0.3.1"
 authors = [
   { name="lim8en1", email="lim8en1@proton.me" },
 ]
