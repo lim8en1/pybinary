@@ -2,7 +2,8 @@ import typing
 from collections import OrderedDict
 from io import BytesIO
 import pyserializable.binary_types as stypes
-from loguru import logger
+import logging
+
 
 
 class _BinarySerializableSchema(type):
@@ -73,10 +74,9 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
         expected_size = cls.size()
         if isinstance(data, bytes):
             if expected_size < len(data):
-                logger.warning(f"Expected to deserialize {expected_size} bytes, {len(data)} bytes were provided. Ignoring trailing bytes")
+                logging.warning(f"Expected to deserialize {expected_size} bytes, {len(data)} bytes were provided. Ignoring trailing bytes")
             elif expected_size > len(data):
-                logger.critical(f"Expected to deserialize {expected_size} bytes, {len(data)} bytes were provided. Failed to deserialize")
-                return None
+                raise ValueError(f"Expected to deserialize {expected_size} bytes, {len(data)} bytes were provided")
             data_stream = BytesIO(data)
         else:
             data_stream = data
