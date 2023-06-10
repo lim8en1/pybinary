@@ -5,7 +5,12 @@ A simple binary serializer/deserializer in pure python.
 Variable-sized fields are not supported. No size check on assignment for the most of the types.
 
 ## Installation 
-Download the repository and build from the sources:
+Install from pypi:
+```
+pip install pybinary
+```
+
+Or download the repository and build from the sources:
 ```
 python3 ./setup.py build
 python3 ./setup.py install
