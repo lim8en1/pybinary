@@ -34,6 +34,8 @@ header.serialize() # serialize and get updated bytes
 ```
 
 ### CPIO Newc ACII Format Archive 
+
 Spec taken from https://manpages.ubuntu.com/manpages/bionic/man5/cpio.5.html
-[Code here](./examples/cpio.py)
+
+[Code here](https://github.com/lim8en1/pyserializable/blob/main/examples/cpio.py)
 
