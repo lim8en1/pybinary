@@ -36,7 +36,11 @@ class _BinarySerializableSchema(type):
 
 
 class BinarySerializable(metaclass=_BinarySerializableSchema):
+
     def serialize(self) -> bytes:
+        """
+        Serialize object to bytes
+        """
         result = b''
         for field, value in self.__properties.items():
             result += value.raw
@@ -64,13 +68,29 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
 
     @classmethod
     def size(cls):
+        """
+        :return: size of the serializable object in bytes
+        """
         result = 0
         for name, value in cls.__properties.items():
             result += value.size
         return result
 
     @classmethod
+    @typing.overload
+    def deserialize(cls, data: BytesIO) -> object: ...
+
+    @classmethod
+    @typing.overload
+    def deserialize(cls, data: bytes) -> object: ...
+
+    @classmethod
     def deserialize(cls, data: bytes | BytesIO) -> object:
+        """
+        Deserialize bytestring to object
+        :param data: serialized object
+        :return:
+        """
         expected_size = cls.size()
         if isinstance(data, bytes):
             if expected_size < len(data):
