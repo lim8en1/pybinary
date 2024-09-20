@@ -80,3 +80,13 @@ def test_bytearray():
     obj =  Test.deserialize(data)
     assert obj.serialize() == data
 
+
+def test_offset():
+    class Test(BinarySerializable):
+        s8 = Types.s8
+        u8 = Types.u8
+        s16 = Types.s16
+        u16 = Types.u16
+
+    assert Test.offset(Test.s16) == 2
+

@@ -85,23 +85,35 @@ class Types(_TypesAbstract):
 
     _typedef_s8 = 'b'
     _typedef_u8 = 'B'
-    _typedef_s16 = 'h'
-    _typedef_u16 = 'H'
-    _typedef_s32 = 'i'
-    _typedef_u32 = 'I'
-    _typedef_s64 = 'q'
-    _typedef_u64 = 'Q'
-    _typedef_float = 'f'
-    _typedef_double = 'd'
+    _typedef_s16 = '<h'
+    _typedef_u16 = '<H'
+    _typedef_s32 = '<i'
+    _typedef_u32 = '<I'
+    _typedef_s64 = '<q'
+    _typedef_u64 = '<Q'
+    _typedef_s16be = '>h'
+    _typedef_u16be = '>H'
+    _typedef_s32be = '>i'
+    _typedef_u32be = '>I'
+    _typedef_s64be = '>q'
+    _typedef_u64be = '>Q'
+    _typedef_float = '<f'
+    _typedef_double = '<d'
 
     s8 = _auto
     u8 = _auto
     s16 = _auto
+    s16be = _auto
     u16 = _auto
+    u16be = _auto
     s32 = _auto
+    s32be = _auto
     u32 = _auto
+    u32be = _auto
     s64 = _auto
+    s64be = _auto
     u64 = _auto
+    u64be = _auto
     float = _auto
     double = _auto
 

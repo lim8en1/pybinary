@@ -1,3 +1,4 @@
+import copy
 import typing
 from collections import OrderedDict
 from io import BytesIO
@@ -23,7 +24,7 @@ class _BinarySerializableSchema(type):
         properties = OrderedDict()
         for field, value in dct.items():
             if isinstance(value, stypes._Type) or isinstance(value, stypes._ArrayType):
-                properties[field] = value
+                properties[field] = copy.deepcopy(value)
         for field, value in properties.items():
             new_field_name = f'_{field}'
             dct[new_field_name] = value
@@ -73,6 +74,19 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
         """
         result = 0
         for name, value in cls.__properties.items():
+            result += value.size
+        return result
+
+    @classmethod
+    def offset(cls, field: property):
+        """
+        :param field:
+        :return:
+        """
+        result = 0
+        for name, value in cls.__properties.items():
+            if getattr(cls, name[1:]) == field:
+                return result
             result += value.size
         return result
 
