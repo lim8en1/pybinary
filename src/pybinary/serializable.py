@@ -23,8 +23,8 @@ class _BinarySerializableSchema(type):
 
         properties = OrderedDict()
         for field, value in dct.items():
-            if isinstance(value, stypes._Type) or isinstance(value, stypes._ArrayType):
-                properties[field] = copy.deepcopy(value)
+            if isinstance(value, stypes._Type) or isinstance(value, stypes._ArrayType) or isinstance(value, stypes._ZString):
+                properties[field] = copy.copy(value)
         for field, value in properties.items():
             new_field_name = f'_{field}'
             dct[new_field_name] = value
@@ -61,7 +61,7 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
         while inheritance_stack:
             current_class = inheritance_stack.pop()
             for name, value in current_class.__dict__.items():
-                if isinstance(value, stypes._Type) or isinstance(value, stypes._ArrayType):
+                if isinstance(value, stypes._Type) or isinstance(value, stypes._ArrayType) or isinstance(value, stypes._ZString):
                     if name in result:
                         raise TypeError(f"Duplicate field '{name}'")
                     result[name] = value
@@ -109,7 +109,7 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
         if isinstance(data, bytes):
             if expected_size < len(data):
                 logging.warning(f"Expected to deserialize {expected_size} bytes, {len(data)} bytes were provided. Ignoring trailing bytes")
-            elif expected_size > len(data):
+            elif expected_size > len(data) and not cls.is_variable_size():
                 raise ValueError(f"Expected to deserialize {expected_size} bytes, {len(data)} bytes were provided")
             data_stream = BytesIO(data)
         else:
@@ -118,5 +118,9 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
         properties = cls.__properties
         for name, value in properties.items():
             field = getattr(result, name)
-            field.raw = data_stream.read(field.size)
+            field.raw = data_stream
         return result
+
+    @classmethod
+    def is_variable_size(cls):
+        return any(isinstance(value, stypes._ZString) for value in cls.__properties.values())
