@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from pybinary.binary_types import ArrayTypes, Types
+from pybinary.binary_types import ArrayTypes, Types, ZeroTerminatedString
 from pybinary.serializable import BinarySerializable
 
 
@@ -80,3 +80,48 @@ def test_bytearray():
     obj =  Test.deserialize(data)
     assert obj.serialize() == data
 
+
+def test_offset():
+    class Test(BinarySerializable):
+        s8 = Types.s8
+        u8 = Types.u8
+        s16 = Types.s16
+        u16 = Types.u16
+
+    assert Test.offset(Test.s16) == 2
+
+def test_zstring():
+    class Test(BinarySerializable):
+        s8 = Types.s8
+        zstring = ZeroTerminatedString.zstring
+        u8 = Types.u8
+
+    obj = Test()
+    test_string = 'aaaaa'
+    obj.zstring = test_string
+    assert obj.serialize() == b'\0' + test_string.encode() + b'\0\0'
+    obj2 = Test.deserialize(b'\0test\0\xff')
+    assert obj2.s8 == 0
+    assert obj2.zstring == 'test'
+    assert obj2.u8 == 0xff
+
+
+def test_zstring2():
+    class Test(BinarySerializable):
+        s8 = Types.s8
+        zstring = ZeroTerminatedString.zstring
+        u8 = Types.u8
+
+    obj2 = Test.deserialize(b'\0test\0\xff')
+    obj2.zstring = '12345\x00678'
+    assert obj2.zstring == '12345'
+    assert obj2.serialize() == b'\x0012345\x00\xff'
+
+def test_zstring3():
+    class Test(BinarySerializable):
+        s8 = Types.s8
+        zstring = ZeroTerminatedString.zstring
+        u8 = Types.u8
+    obj3 = Test()
+    data = obj3.serialize()
+    assert Test.deserialize(data).zstring == obj3.zstring
