@@ -1,6 +1,6 @@
 [project]
 name = "pybinary"
-version = "0.9.5"
+version = "0.9.6"
 authors = [
   { name="lim8en1", email="lim8en1@proton.me" },
 ]
