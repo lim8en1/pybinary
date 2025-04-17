@@ -43,7 +43,8 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
         Serialize object to bytes
         """
         result = b''
-        for field, value in self.__properties.items():
+        for field in self.__properties.keys():
+            value = getattr(self, field)
             result += value.raw
         return result
 
@@ -117,8 +118,9 @@ class BinarySerializable(metaclass=_BinarySerializableSchema):
         result = cls()
         properties = cls.__properties
         for name, value in properties.items():
-            field = getattr(result, name)
+            field = copy.deepcopy(getattr(result, name))
             field.raw = data_stream
+            setattr(result, name, field)
         return result
 
     @classmethod
